@@ -58,16 +58,43 @@ const loadCountries = () =>{
 
 const displayCountries = countries =>{
     const countriesContainer = document.getElementById('all-countries')
-    // console.log(country)
    countries.forEach(country =>{
+        // console.log(country.cca2)
         const countryDiv = document.createElement('div')
         countryDiv.classList.add('country')
         countryDiv.innerHTML = `
           <h3>Name: ${country.name.common}</h3>
           <p>Capital: ${country.capital ? country.capital[0] : 'No Capital'}</p>
+          <button onclick="loadCountryDetails('${country.cca2}')">Details</button>
         `
         countriesContainer.appendChild(countryDiv)
    })
+}
+
+const loadCountryDetails = code =>{
+    const url = `https://restcountries.com/v3.1/alpha/${code}`
+    fetch(url)
+     .then(response => response.json())
+     .then(data => displayCountryDetails(data))
+}
+
+const displayCountryDetails = country => {
+    const detailContainer = document.getElementById('countryDetail')
+    country.map(details => {
+        console.log(details)
+       const capital = details.capital.map(capita =>{
+            return capita
+        })
+        detailContainer.innerHTML = `
+        <h2>Country Details</h2>
+        <h3>Name: ${details.name.common}</h3>
+        <h3>Capital: ${capital}</h3>
+        <h3>official: ${details.name.official}</h3>
+        <h3>taka: ${details.currencies.BDT.name}</h3>
+        <h3>symbol: ${details.currencies.BDT.symbol}</h3>
+        <img src="${details.flags.png}" alt="">
+    `
+    }) 
 }
 
 loadCountries();
