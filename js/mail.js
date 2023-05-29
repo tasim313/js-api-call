@@ -30,7 +30,7 @@ const displayMeals = meals =>{
             <div class="card-body">
                 <h5 class="card-title">${meal.strMeal}</h5>
                 <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <button onclick="loadMealDetail2(${meal.idMeal})"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mealDetails">
+                <button onclick="loadMealDetail(${meal.idMeal})"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mealDetails">
                     Details
                 </button>
             </div>
@@ -49,6 +49,42 @@ const searchMeal = () =>{
     console.log(searchText);
     loadMeals(searchText);
     
+}
+
+const loadMealDetail = idMeal =>{
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+    fetch(url)
+      .then(response => {
+            // const status = (response.status).toString()
+            // console.log("status", status)
+            // if(status === "200"){
+            //     data = response.json()
+            //     console.log("Data", data)
+            //     data.forEach(obj =>{
+            //         console.log("Object Data", obj)
+            //     })
+            // }
+            dream(response)
+      })
+    //   .then(data => displayMealDetails(data.meals[0]))
+    //   .catch(error => console.log(error))
+}
+
+function dream(response){
+    const status = (response.status).toString()
+    console.log("status", status)
+    if(status === "200"){
+        data = response.json()
+        .then(data => displayMealDetails(data.meals[0]))
+    }
+}
+
+const displayMealDetails = meal => {
+    document.getElementById('mealDetailsLabel').innerText = meal.strMeal;
+    const mealsDetails = document.getElementById('mealDetailsBody');
+    mealsDetails.innerHTML = `
+        <img class="img-fluid" src="${meal.strMealThumb}">
+    `
 }
 
 // const loadMeals = (searchText) =>{
