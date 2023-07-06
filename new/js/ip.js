@@ -12,7 +12,7 @@ const load_ip_address = async() =>{
     const cookieEnabled_value_string = navigator.cookieEnabled
     const cookieEnabled = cookieEnabled_value_string.toString()
     
-    ip_address_response(1, ip, browser, platform, online, cookieEnabled, user_agent)
+    ip_address_response(3, ip, browser, platform, online, cookieEnabled, user_agent)
 
     set_innerText('ip', ip)
     set_innerText('browser', browser)
